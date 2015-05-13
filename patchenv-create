@@ -1,0 +1,11 @@
+#!/bin/sh
+
+name=$1
+
+if mountpoint /patch/$name > /dev/null 2>&1; then
+	echo "ERROR: a patchenv named $1 already exists" >&2
+	exit 1
+fi
+
+mkdir -p /patch/$name /.patch/{$name,$name-work,$name-journal}
+mount -t overlay overlay -o lowerdir=/,upperdir=/.patch/$name,workdir=/.patch/$name-work /patch/$name

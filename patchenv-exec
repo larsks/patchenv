@@ -1,0 +1,12 @@
+#!/bin/sh
+
+name=$1
+shift
+
+if ! mountpoint /patch/$name > /dev/null 2>&1; then
+	echo "ERROR: no patchenv named $name" >&2
+	exit 1
+fi
+
+export PATCHENV_NAME=$name
+exec systemd-nspawn -q -D /patch/$name --share-system "$@"

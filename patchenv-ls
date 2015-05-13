@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mount | awk '
+	$3 ~ /^\/patch\// {print $3}
+'
